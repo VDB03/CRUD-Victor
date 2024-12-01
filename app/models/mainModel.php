@@ -20,4 +20,10 @@
             return $conexion;
         }
 
+        protected function ejecutarConsulta($consulta){
+        $sql=$this->conectar()->prepare($consulta);
+        $sql->execute();
+        return $sql;
+        }
+
     }
