@@ -166,7 +166,7 @@
             }
 
             $ci=0;
-            for($i=$pagina; $i<=$numeroPaginas; $i=++){
+            for($i=$pagina; $i<=$numeroPaginas; $i++){
 
                 if($ci>=$botones){
                     break;
