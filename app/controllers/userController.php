@@ -71,6 +71,24 @@
                     return json_encode($alerta);
                     exit();
                 }
+<<<<<<< HEAD
+
+                if($email!=""){
+                    if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+                    }else{
+                        $alerta=[
+                            "tipo"=>"simple",
+                            "titulo"=>"Ocurrio un error inesperado",
+                            "texto"=>"Ha ingresado un email no valido",
+                            "icono"=>"error"
+                        ];
+                        return json_encode($alerta);
+                        exit();
+                    }
+                }
+=======
+>>>>>>> 9bc6650e209a9c4a11e9c7e79d9bfb26bf28d545
                 
                 
         }
