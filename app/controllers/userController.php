@@ -71,11 +71,21 @@
                     return json_encode($alerta);
                     exit();
                 }
-<<<<<<< HEAD
 
                 if($email!=""){
                     if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+                        $check_email=$this->ejecutarConsulta("SELECT usuario_email FROM usuario WHERE usuario_email='$email'");
 
+                        if($check_email->rowCount()>0){
+                            $alerta=[
+                                "tipo"=>"simple",
+                                "titulo"=>"Ocurrio un error inesperado",
+                                "texto"=>"El email ya se encuentra registrado.",
+                                "icono"=>"error"
+                            ];
+                            return json_encode($alerta);
+                            exit();
+                        }
                     }else{
                         $alerta=[
                             "tipo"=>"simple",
@@ -87,9 +97,33 @@
                         exit();
                     }
                 }
-=======
->>>>>>> 9bc6650e209a9c4a11e9c7e79d9bfb26bf28d545
-                
-                
+
+                if($clave1!=$clave1){
+                    $alerta=[
+                        "tipo"=>"simple",
+                        "titulo"=>"Ocurrio un error inesperado",
+                        "texto"=>"Las claves no coinciden.",
+                        "icono"=>"error"
+                    ];
+                    return json_encode($alerta);
+                    exit();
+                    
+                }else{
+                    $clave=password_hash($clave1, PASSWORD_BCRYPT, ["cost"=>10]);
+                }
+
+                $check_usuario=$this->ejecutarConsulta("SELECT usuario_usuario FROM usuario WHERE usuario_usuario='$usuario'");
+                if($check_usuario->rowCount()>0){
+                    $alerta=[
+                        "tipo"=>"simple",
+                        "titulo"=>"Ocurrio un error inesperado",
+                        "texto"=>"El usuario ya se encuentra registrado.",
+                        "icono"=>"error"
+                    ];
+                    return json_encode($alerta);
+                    exit();
+                }
+
+                $img_dir="../views/photos/";
         }
     }
