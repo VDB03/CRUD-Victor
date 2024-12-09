@@ -170,7 +170,24 @@
 
                     switch(mime_content_type($_FILES['usuario_foto']['tmp_name'])){
                         case "image/jpeg":
+                                $foto=$foto.".jpg";
                             break;
+                        case "image/png":
+                                $foto=$foto.".png";
+                            break;
+                    }
+
+                    chmod($img_dir, 0777);
+
+                    if (!move_uploaded_file($_FILES['usuario_foto']['tmp_name'], $img_dir.$foto)){
+                        $alerta=[
+                            "tipo"=>"simple",
+                            "titulo"=>"Error al mover la imagen",
+                            "texto"=>"No se pudo subir la imagen por el momento.",
+                            "icono"=>"error"
+                        ];
+                        return json_encode($alerta);
+                        exit();
                     }
 
                 }else{
