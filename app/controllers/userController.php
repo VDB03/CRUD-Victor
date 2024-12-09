@@ -125,5 +125,56 @@
                 }
 
                 $img_dir="../views/photos/";
+
+
+                if($_FILES['usuario_foto']['name']!="" && $_FILES ['usuario_foto']['size']>0){
+
+                    if(!file_exists($img_dir)){
+                        if(!mkdir($img_dir, 0777)){
+                            $alerta=[
+                                "tipo"=>"simple",
+                                "titulo"=>"Ocurrio un error inesperado",
+                                "texto"=>"Error al crear el directorio.",
+                                "icono"=>"error"
+                            ];
+                            return json_encode($alerta);
+                            exit();
+                        }
+                    }
+
+                    if(mime_content_type($_FILES['usuario_foto']['tmp_name'])!="image/jpeg" && mime_content_type($_FILES['usuario_foto']['tmp_name'])!="image/png"){
+                        $alerta=[
+                            "tipo"=>"simple",
+                            "titulo"=>"Ocurrio un error inesperado",
+                            "texto"=>"Formato no permitido.",
+                            "icono"=>"error"
+                        ];
+                        return json_encode($alerta);
+                        exit();
+                    }
+
+                    if(($_FILES['usuario_foto']['size']/1024)>5120){
+                        $alerta=[
+                            "tipo"=>"simple",
+                            "titulo"=>"Ocurrio un error inesperado",
+                            "texto"=>"La imagen que selecciono supera el peso permitido.",
+                            "icono"=>"error"
+                        ];
+                        return json_encode($alerta);
+                        exit();
+                    }
+
+                    $foto=str_ireplace(" ","_",$nombre);
+                    $foto=$foto."_".rand(0,100);
+
+
+                    switch(mime_content_type($_FILES['usuario_foto']['tmp_name'])){
+                        case "image/jpeg":
+                            break;
+                    }
+
+                }else{
+                    $foto="";
+                }
         }
     }
