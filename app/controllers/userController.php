@@ -61,11 +61,11 @@
                     exit();
 
                 }
-                if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}", $clave1) || $this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}", $clave2)){
+                if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave1) || $this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave2)){
                     $alerta=[
                         "tipo"=>"simple",
-                        "titulo"=>"Ocurrio un error inesperado",
-                        "texto"=>"las claves no coincide con el formato solicitado",
+                        "titulo"=>"Ocurrió un error inesperado",
+                        "texto"=>"Las CLAVES no coinciden con el formato solicitado",
                         "icono"=>"error"
                     ];
                     return json_encode($alerta);
@@ -98,7 +98,7 @@
                     }
                 }
 
-                if($clave1!=$clave1){
+                if($clave1!=$clave2){
                     $alerta=[
                         "tipo"=>"simple",
                         "titulo"=>"Ocurrio un error inesperado",
@@ -193,5 +193,72 @@
                 }else{
                     $foto="";
                 }
+
+                $usuario_datos_reg=[
+                    [
+                        "campo_nombre"=>"usuario_nombre",
+                        "campo_marcador"=>":Nombre",
+                        "campo_valor"=>$nombre
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_apellido",
+                        "campo_marcador"=>":Apellido",
+                        "campo_valor"=>$apellido
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_email",
+                        "campo_marcador"=>":Email",
+                        "campo_valor"=>$email
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_usuario",
+                        "campo_marcador"=>":Usuario",
+                        "campo_valor"=>$usuario
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_clave",
+                        "campo_marcador"=>":Clave",
+                        "campo_valor"=>$clave
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_foto",
+                        "campo_marcador"=>":Foto",
+                        "campo_valor"=>$foto
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_creado",
+                        "campo_marcador"=>":Creado",
+                        "campo_valor"=>date("Y-m-d H:i:s")
+                    ],
+                    [
+                        "campo_nombre"=>"usuario_actualizado",
+                        "campo_marcador"=>":Actualizado",
+                        "campo_valor"=>date("Y-m-d H:i:s")
+                    ]
+                ];
+
+                $registrar_usuario=$this->guardarDatos("usuario", $usuario_datos_reg);
+
+                if($registrar_usuario->rowCount()==1){
+                    $alerta=[
+                        "tipo"=>"limpiar",
+                        "titulo"=>"usuario registrado",
+                        "texto"=>"El usuario ".$nombre." ".$apellido." se registro con exito",
+                        "icono"=>"success"
+                    ];
+                }else{
+
+                    if(is_file($img_dir.$foto)){
+                        chmod($img_dir.$foto,0777);
+                        unlink($img_dir.$foto);
+                    }
+                    $alerta=[
+                        "tipo"=>"simple",
+                        "titulo"=>"Error al mover la imagen",
+                        "texto"=>"No se pudo registrar el usuario, por favor intente nuevamente.",
+                        "icono"=>"error"
+                    ];
+                }
+                return json_encode($alerta);
         }
     }
